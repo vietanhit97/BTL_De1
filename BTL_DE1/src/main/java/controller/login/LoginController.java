@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import dao.AccountDao;
+import entity.Account;
+
 /**
  * Servlet implementation class LoginController
  */
@@ -38,9 +41,11 @@ public class LoginController extends HttpServlet {
 		// TODO Auto-generated method stub
 		String nameString = request.getParameter("email");
 		String passwordString = request.getParameter("password");
-		if(nameString.equals("admin@gmail.com")&&passwordString.equals("123456")) {
+		Account account = new AccountDao().loginAccount(nameString, passwordString);
+		if(account!= null) {	
 			HttpSession session = request.getSession();
-			session.setAttribute("user", nameString);
+			session.setAttribute("lang", "vi_VN");
+			session.setAttribute("user", account.getName());
 			response.sendRedirect("LoginHomeAdmin");
 		}else {
 			response.sendRedirect("LoginController");

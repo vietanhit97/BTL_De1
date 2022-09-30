@@ -32,3 +32,5 @@ create table account(
 	address nvarchar(150),
 	role bit default(0),
 )
+go 
+insert into account(name,email,password) values ('viet anh','admin@gmail.com','123456')

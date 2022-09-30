@@ -1,9 +1,8 @@
 package controller.product;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-
+import java.io.InputStream;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -48,12 +47,20 @@ public class InsertProduct extends HttpServlet {
 		try {
 			String name = request.getParameter("name");
 			Part part = request.getPart("upload");
-			String realPart = request.getServletContext().getRealPath("/images");
-			String fileNameString = Path.of(part.getSubmittedFileName()).getFileName().toString();
-			if(!Files.exists(Path.of(realPart))) {
-				Files.createDirectories(Path.of(realPart));
-			}
-			part.write(realPart+"/"+fileNameString);
+			String imageFileString = part.getSubmittedFileName();
+			String uploadPathString= "C:/Users/Viet Anh/git/repository/BTL_DE1/src/main/webapp/images/"+imageFileString;
+			FileOutputStream fileOutputStream = new FileOutputStream(uploadPathString);
+			InputStream isInputStream = part.getInputStream();
+			byte[] data = new byte[isInputStream.available()];
+			isInputStream.read(data);
+			fileOutputStream.write(data);
+			fileOutputStream.close();
+//			String realPart = request.getServletContext().getRealPath("/images");
+//			String fileNameString = Path.of(part.getSubmittedFileName()).getFileName().toString();
+//			if(!Files.exists(Path.of(realPart))) {
+//				Files.createDirectories(Path.of(realPart));
+//			}
+//			part.write(realPart+"/"+fileNameString);
 			String dsc = request.getParameter("description");
 			float price = Float.parseFloat(request.getParameter("price"));
 			float salePrice = Float.parseFloat(request.getParameter("sale_price"));
@@ -62,7 +69,7 @@ public class InsertProduct extends HttpServlet {
 			int categoryId = Integer.parseInt(request.getParameter("catId"));
 			Product product = new Product();
 			product.setName(name);
-			product.setImage(fileNameString);
+			product.setImage(imageFileString);
 			product.setDescription(dsc);
 			product.setPrice(price);
 			product.setSale_price(salePrice);
