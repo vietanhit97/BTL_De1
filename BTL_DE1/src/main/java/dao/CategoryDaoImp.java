@@ -120,7 +120,7 @@ public class CategoryDaoImp implements Dao<Categories> {
 		List<Categories> listData = new ArrayList<Categories>();
 		Connection connection = JDBCUtil.getConnection();
 		try {
-			PreparedStatement pStatement = connection.prepareStatement("select * from category where catname like ?");
+			PreparedStatement pStatement = connection.prepareStatement("select * from category where name like ?");
 			pStatement.setString(1, "%" + key + "%");
 			ResultSet resultSet = pStatement.executeQuery();
 			while (resultSet.next()) {

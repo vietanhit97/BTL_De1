@@ -155,6 +155,7 @@ public class ProductDaoImp implements Dao<Product> {
 				product.setDescription(rSet.getString("description"));
 				product.setCreated_date(rSet.getDate("created_date"));
 				product.setCategory_id(rSet.getInt("category_id"));
+				listData.add(product);
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
